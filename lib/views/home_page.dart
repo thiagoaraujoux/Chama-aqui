@@ -1,8 +1,11 @@
+import 'package:chamaaqui/views/login.dart';
 import 'package:chamaaqui/views/servico.dart';
 import 'package:flutter/material.dart';
 
+import '../routes.dart';
+
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -13,24 +16,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Map<String, dynamic>> images = [
-    {
-      'path': 'assets/images/reforma.png',
-      'text': 'Reforma',
-    },
-    {
-      'path': 'assets/images/limpeza.png',
-      'text': 'Limpeza',
-    },
-    {
-      'path': 'assets/images/informatica.jpg',
-      'text': 'Informática',
-    },
-  ];
+  final List<Map<String, dynamic>> images = [    {      'path': 'assets/images/reforma.png',      'text': 'Reforma',    },    {      'path': 'assets/images/limpeza.png',      'text': 'Limpeza',    },    {      'path': 'assets/images/informatica.jpg',      'text': 'Informática',    },  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: TextField(
+          decoration: InputDecoration(
+            hintText: 'Pesquisar',
+            hintStyle: TextStyle(color: Colors.white),
+          ),
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.account_circle),
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.login);
+            },
+          ),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
