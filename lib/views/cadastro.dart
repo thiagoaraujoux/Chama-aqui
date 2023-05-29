@@ -357,10 +357,10 @@ class _CadastroPageState extends State<CadastroPage> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                        //  IconButton(
-                       //     onPressed: () => editarUsuario(index),
-                       //     icon: Icon(Icons.edit),
-                       //   ),
+                          //  IconButton(
+                          //     onPressed: () => editarUsuario(index),
+                          //     icon: Icon(Icons.edit),
+                          //   ),
                           IconButton(
                             onPressed: () => excluirUsuario(index),
                             icon: Icon(Icons.delete),

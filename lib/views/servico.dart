@@ -1,3 +1,4 @@
+import 'package:chamaaqui/views/perfil.dart';
 import 'package:flutter/material.dart';
 
 class Servico extends StatelessWidget {
@@ -62,7 +63,12 @@ class Servico extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfilePage(),
+                          builder: (context) => PerfilPage(
+                            nome: 'João da Silva',
+                            servico: 'Pedreiro',
+                            portfolio: ['Item 1', 'Item 2'],
+                            avaliacoes: ['Recomendação 1', 'Recomendação 2'],
+                          ),
                         ),
                       );
                     },
@@ -105,7 +111,12 @@ class Servico extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProfilePage(),
+                          builder: (context) => PerfilPage(
+                            nome: 'Maria Santos',
+                            servico: 'Eletricista',
+                            portfolio: ['Item 3', 'Item 4'],
+                            avaliacoes: ['Recomendação 3', 'Recomendação 4'],
+                          ),
                         ),
                       );
                     },
@@ -149,19 +160,6 @@ class Servico extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Perfil')),
-      body: Center(child: Text('Conteúdo do perfil')),
     );
   }
 }
