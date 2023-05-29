@@ -4,7 +4,6 @@ import 'package:sqflite/sqflite.dart';
 
 import 'models/usuario.dart';
 
-
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
 
