@@ -3,7 +3,12 @@ class Usuario {
   String nome;
   String email;
   String senha;
-  String cep; // Adicionado o campo "cep"
+  String cep;
+  String logradouro; // Novo campo "logradouro"
+  String bairro; // Novo campo "bairro"
+  String cidade; // Novo campo "cidade"
+  String estado; // Novo campo "estado"
+  String numero; // Novo campo "numero"
   List<String> servicos;
 
   Usuario({
@@ -12,6 +17,11 @@ class Usuario {
     required this.email,
     required this.senha,
     required this.cep,
+    required this.logradouro,
+    required this.bairro,
+    required this.cidade,
+    required this.estado,
+    required this.numero,
     required this.servicos,
   });
 
@@ -22,6 +32,11 @@ class Usuario {
       'email': email,
       'senha': senha,
       'cep': cep,
+      'logradouro': logradouro,
+      'bairro': bairro,
+      'cidade': cidade,
+      'estado': estado,
+      'numero': numero,
       'servicos': servicos,
     };
   }
@@ -33,19 +48,24 @@ class Usuario {
       email: map['email'],
       senha: map['senha'],
       cep: map['cep'],
+      logradouro: map['logradouro'],
+      bairro: map['bairro'],
+      cidade: map['cidade'],
+      estado: map['estado'],
+      numero: map['numero'],
       servicos: List<String>.from(map['servicos']),
     );
   }
 
   String get nomeCompleto {
-    return '$nome'; // You can modify the format as per your requirement
+    return '$nome'; // Você pode modificar o formato conforme necessário
   }
 
   String get servico {
     if (servicos.isNotEmpty) {
-      return servicos[0]; // Returns the first service from the list
+      return servicos[0]; // Retorna o primeiro serviço da lista
     } else {
-      return ''; // Returns an empty string if the user doesn't have any services
+      return ''; // Retorna uma string vazia se o usuário não tiver nenhum serviço
     }
   }
 }

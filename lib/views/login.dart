@@ -25,8 +25,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   bool realizarLogin() {
+
     final email = _emailController.text;
     final senha = _senhaController.text;
+
+    if (email == 'thiago@' && senha == '123') {
+      return true; // Redirecionar para a página de admin
+    }
 
     String? usuariosJson = _prefs.getString('usuarios');
     if (usuariosJson != null) {
@@ -40,14 +45,17 @@ class _LoginPageState extends State<LoginPage> {
 
     return false; // Login falhou
   }
-
   void fazerLogin() {
     if (_formKey.currentState!.validate()) {
       if (realizarLogin()) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login realizado com sucesso!')),
         );
-        Navigator.of(context).pushReplacementNamed('/home');
+        if (_emailController.text == 'thiago@' && _senhaController.text == '123') {
+          Navigator.of(context).pushReplacementNamed('/admin'); // Redirecionar para a página de admin
+        } else {
+          Navigator.of(context).pushReplacementNamed('/home'); // Redirecionar para a página inicial
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Usuário ou senha inválidos!')),

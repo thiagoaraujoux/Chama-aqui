@@ -1,3 +1,4 @@
+import 'package:chamaaqui/views/admin.dart';
 import 'package:chamaaqui/views/cadastro.dart';
 import 'package:chamaaqui/views/home_page.dart';
 import 'package:chamaaqui/views/login.dart';
@@ -7,6 +8,7 @@ class Routes {
   static const String home = '/';
   static const String login = '/login';
   static const String cadastro = '/cadastro';
+  static const String admin = '/admin';
 
   static Route<dynamic> generateRoutes(RouteSettings settings) {
     switch (settings.name) {
@@ -16,6 +18,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case cadastro:
         return MaterialPageRoute(builder: (_) => CadastroPage());
+      case admin:
+        return MaterialPageRoute(builder: (_) => AdminPage());
       default:
         return MaterialPageRoute(builder: (_) => MyHomePage(title: '',));
     }

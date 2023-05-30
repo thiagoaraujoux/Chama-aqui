@@ -38,7 +38,7 @@ dependencies:
   sqflite: ^2.0.0+3
   shared_preferences: ^2.0.7
   http: ^0.13.4
-  flutter_stepper: ^3.0.0
+  flutter_stepper: any
 
 dev_dependencies:
   flutter_test:
