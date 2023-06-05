@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -12,13 +13,15 @@ class _CadastroPageState extends State<CadastroPage> {
   final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
-    GlobalKey<FormState>(),
   ];
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
+  final _cepController = TextEditingController();
   final _enderecoController = TextEditingController();
-  final _servicosController = TextEditingController();
+  final _bairroController = TextEditingController();
+  final _cidadeController = TextEditingController();
+  final _estadoController = TextEditingController();
   List<dynamic> _usuarios = [];
 
   @override
@@ -43,7 +46,9 @@ class _CadastroPageState extends State<CadastroPage> {
       'email': _emailController.text,
       'senha': _senhaController.text,
       'endereco': _enderecoController.text,
-      'servicos': _servicosController.text,
+      'bairro': _bairroController.text,
+      'cidade': _cidadeController.text,
+      'estado': _estadoController.text,
     };
 
     setState(() {
@@ -53,8 +58,11 @@ class _CadastroPageState extends State<CadastroPage> {
     _nomeController.clear();
     _emailController.clear();
     _senhaController.clear();
+    _cepController.clear();
     _enderecoController.clear();
-    _servicosController.clear();
+    _bairroController.clear();
+    _cidadeController.clear();
+    _estadoController.clear();
 
     // Salvar usuários no SharedPreferences
     salvarUsuarios();
@@ -88,6 +96,40 @@ class _CadastroPageState extends State<CadastroPage> {
     final prefs = await SharedPreferences.getInstance();
     final usuariosJson = json.encode(_usuarios);
     await prefs.setString('usuarios', usuariosJson);
+  }
+
+  Future<void> buscarEnderecoPorCEP(String cep) async {
+    final url = Uri.parse('https://viacep.com.br/ws/$cep/json/');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data.containsKey('erro')) {
+        // CEP não encontrado
+        setState(() {
+          _enderecoController.text = '';
+          _bairroController.text = '';
+          _cidadeController.text = '';
+          _estadoController.text = '';
+        });
+      } else {
+        // Preenche os campos de endereço com os dados encontrados
+        setState(() {
+          _enderecoController.text = data['logradouro'];
+          _bairroController.text = data['bairro'];
+          _cidadeController.text = data['localidade'];
+          _estadoController.text = data['uf'];
+        });
+      }
+    } else {
+      // Erro ao realizar a requisição
+      setState(() {
+        _enderecoController.text = '';
+        _bairroController.text = '';
+        _cidadeController.text = '';
+        _estadoController.text = '';
+      });
+    }
   }
 
   @override
@@ -127,7 +169,7 @@ class _CadastroPageState extends State<CadastroPage> {
           Expanded(
             child: PageView.builder(
               controller: _pageController,
-              itemCount: 3,
+              itemCount: 2,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.all(16.0),
@@ -184,6 +226,20 @@ class _CadastroPageState extends State<CadastroPage> {
                         ],
                         if (index == 1) ...[
                           TextFormField(
+                            controller: _cepController,
+                            decoration: InputDecoration(
+                              labelText: 'CEP',
+                              border: OutlineInputBorder(),
+                            ),
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {
+                              if (value.length == 8) {
+                                buscarEnderecoPorCEP(value);
+                              }
+                            },
+                          ),
+                          SizedBox(height: 16.0),
+                          TextFormField(
                             controller: _enderecoController,
                             decoration: InputDecoration(
                               labelText: 'Endereço',
@@ -196,17 +252,44 @@ class _CadastroPageState extends State<CadastroPage> {
                               return null;
                             },
                           ),
-                        ],
-                        if (index == 2) ...[
+                          SizedBox(height: 16.0),
                           TextFormField(
-                            controller: _servicosController,
+                            controller: _bairroController,
                             decoration: InputDecoration(
-                              labelText: 'Serviços',
+                              labelText: 'Bairro',
                               border: OutlineInputBorder(),
                             ),
                             validator: (value) {
                               if (value!.isEmpty) {
-                                return 'Por favor, insira os serviços.';
+                                return 'Por favor, insira o bairro.';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 16.0),
+                          TextFormField(
+                            controller: _cidadeController,
+                            decoration: InputDecoration(
+                              labelText: 'Cidade',
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Por favor, insira a cidade.';
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 16.0),
+                          TextFormField(
+                            controller: _estadoController,
+                            decoration: InputDecoration(
+                              labelText: 'Estado',
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Por favor, insira o estado.';
                               }
                               return null;
                             },
@@ -216,7 +299,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         ElevatedButton(
                           onPressed: () {
                             if (_formKeys[index].currentState!.validate()) {
-                              if (index < 2) {
+                              if (index < 1) {
                                 _pageController.nextPage(
                                   duration: Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
@@ -226,7 +309,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               }
                             }
                           },
-                          child: Text(index < 2 ? 'Próxima' : 'Cadastrar'),
+                          child: Text(index < 1 ? 'Próxima' : 'Cadastrar'),
                         ),
                         if (index > 0) ...[
                           SizedBox(height: 16.0),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../routes.dart';
+import '../utils/session_manager.dart';
 import 'servico.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -22,10 +22,29 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   bool isDarkMode = false;
+  bool isMenuOpen = false;
+  String? loggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    loadLoggedInUser();
+  }
+
+  Future<void> loadLoggedInUser() async {
+    loggedInUser = await SessionManager.getLoggedInUser();
+    setState(() {});
+  }
 
   void toggleDarkMode() {
     setState(() {
       isDarkMode = !isDarkMode;
+    });
+  }
+
+  void toggleMenu() {
+    setState(() {
+      isMenuOpen = !isMenuOpen;
     });
   }
 
@@ -49,6 +68,17 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
     );
+  }
+
+  void navigateToLogin() {
+    SessionManager.clearLoggedInUser(); // Limpar usuário logado
+    Navigator.pushNamed(context, Routes.login);
+  }
+
+  void navigateToHome() {
+    // Reset any user-related data
+    // e.g., clear form fields, reset state variables, etc.
+    Navigator.pop(context);
   }
 
   @override
@@ -76,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
-                Navigator.pushNamed(context, Routes.login);
+                navigateToLogin();
               },
             ),
             IconButton(
@@ -84,6 +114,56 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: toggleDarkMode,
             ),
           ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage('assets/images/avatar.png'),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      loggedInUser ?? '',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.account_circle),
+                title: Text('Perfil'),
+                onTap: () {
+                  // Navigate to profile page
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Configurações'),
+                onTap: () {
+                  // Navigate to settings page
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Sair'),
+                onTap: () {
+                  toggleMenu();
+                  navigateToLogin();
+                },
+              ),
+            ],
+          ),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -145,6 +225,12 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: toggleMenu,
+          child: Icon(
+            isMenuOpen ? Icons.close : Icons.menu,
+          ),
         ),
       ),
     );
