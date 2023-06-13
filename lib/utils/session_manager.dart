@@ -1,35 +1,22 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
+  static late SharedPreferences _prefs;
   static const String _loggedInUserKey = 'loggedInUser';
 
-  static Future<bool> setLoggedInUser(String username) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      return await prefs.setString(_loggedInUserKey, username);
-    } catch (e) {
-      print('Erro ao salvar o usuário logado: $e');
-      return false;
-    }
+  static Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
-  static Future<String?> getLoggedInUser() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_loggedInUserKey);
-    } catch (e) {
-      print('Erro ao obter o usuário logado: $e');
-      return null;
-    }
+  static void setLoggedInUser(String usuario) {
+    _prefs.setString(_loggedInUserKey, usuario);
   }
 
-  static Future<bool> clearLoggedInUser() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      return await prefs.remove(_loggedInUserKey);
-    } catch (e) {
-      print('Erro ao limpar o usuário logado: $e');
-      return false;
-    }
+  static String? getLoggedInUser() {
+    return _prefs.getString(_loggedInUserKey);
+  }
+
+  static void clearLoggedInUser() {
+    _prefs.remove(_loggedInUserKey);
   }
 }

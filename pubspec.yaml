@@ -37,9 +37,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   sqflite: ^2.0.0+3
   shared_preferences: ^2.0.7
-  http: ^0.13.4
+  http: any
   flutter_stepper: any
   provider: ^6.0.1
+  flutter_neumorphic: any
+  animations: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,7 @@ flutter:
    - assets/images/reforma.png
    - assets/images/limpeza.png
    - assets/images/informatica.jpg
+   - assets/images/avatar.png
    - assets/fonts/
   fonts:
     - family: Fredoka One

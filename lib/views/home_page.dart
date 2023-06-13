@@ -81,6 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.pop(context);
   }
 
+  void navigateToUserProfile() {
+    Navigator.pushNamed(context, Routes.perfil);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = isDarkMode ? ThemeData.dark() : ThemeData.light();
@@ -105,9 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () {
-                navigateToLogin();
-              },
+              onPressed: navigateToLogin,
             ),
             IconButton(
               icon: Icon(Icons.lightbulb),
@@ -126,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 30,
+                      radius: 40, // Increase avatar size
                       backgroundImage: AssetImage('assets/images/avatar.png'),
                     ),
                     SizedBox(height: 10),
@@ -143,9 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text('Perfil'),
-                onTap: () {
-                  // Navigate to profile page
-                },
+                onTap: navigateToUserProfile,
               ),
               ListTile(
                 leading: Icon(Icons.settings),
@@ -165,12 +165,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
+        body: SingleChildScrollView( // Wrap with SingleChildScrollView
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(height: 20),
+              ListView.builder(
+                shrinkWrap: true, // Set shrinkWrap to true
                 itemCount: images.length,
                 itemBuilder: (context, index) {
                   final imagePath = images[index]['path'];
@@ -223,13 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
               ),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: toggleMenu,
-          child: Icon(
-            isMenuOpen ? Icons.close : Icons.menu,
+            ],
           ),
         ),
       ),

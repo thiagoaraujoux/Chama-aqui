@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/session_manager.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -25,12 +27,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   bool realizarLogin() {
-
     final email = _emailController.text;
     final senha = _senhaController.text;
 
     if (email == 'thiago@' && senha == '123') {
-      return true; // Redirecionar para a página de admin
+      Navigator.of(context).pushReplacementNamed('/admin');
     }
 
     String? usuariosJson = _prefs.getString('usuarios');
@@ -38,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
       List<dynamic> usuarios = json.decode(usuariosJson);
       for (var usuario in usuarios) {
         if (usuario['email'] == email && usuario['senha'] == senha) {
+          SessionManager.setLoggedInUser(usuario['nome']);
           return true; // Login bem-sucedido
         }
       }
@@ -45,17 +47,14 @@ class _LoginPageState extends State<LoginPage> {
 
     return false; // Login falhou
   }
+
   void fazerLogin() {
     if (_formKey.currentState!.validate()) {
       if (realizarLogin()) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login realizado com sucesso!')),
         );
-        if (_emailController.text == 'thiago@' && _senhaController.text == '123') {
-          Navigator.of(context).pushReplacementNamed('/admin'); // Redirecionar para a página de admin
-        } else {
-          Navigator.of(context).pushReplacementNamed('/home'); // Redirecionar para a página inicial
-        }
+        Navigator.of(context).pushReplacementNamed('/home'); // Redirecionar para a página inicial
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Usuário ou senha inválidos!')),
@@ -71,7 +70,10 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.blue, // Alterado para a cor azul
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
