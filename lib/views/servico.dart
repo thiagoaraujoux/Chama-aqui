@@ -1,11 +1,25 @@
 import 'package:chamaaqui/views/perfil.dart';
 import 'package:flutter/material.dart';
 
-class Servico extends StatelessWidget {
+class Servico extends StatefulWidget {
   final String imagePath;
   final String imageText;
 
   const Servico({Key? key, required this.imagePath, required this.imageText}) : super(key: key);
+
+  @override
+  _ServicoState createState() => _ServicoState();
+}
+
+class _ServicoState extends State<Servico> {
+  int _selectedIndex = 0;
+  List<String> _especialidades = ['Pedreiro', 'Eletricista', 'Encanador'];
+
+  List<List<String>> _usuarios = [
+    ['João da Silva', 'Pedreiro', 'Item 1', 'Item 2', 'Recomendação 1', 'Recomendação 2'],
+    ['Maria Santos', 'Eletricista', 'Item 3', 'Item 4', 'Recomendação 3', 'Recomendação 4'],
+    ['José Oliveira', 'Encanador', 'Item 5', 'Item 6', 'Recomendação 5', 'Recomendação 6'],
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +33,7 @@ class Servico extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(imagePath),
+                    image: AssetImage(widget.imagePath),
                   ),
                 ),
               ),
@@ -31,7 +45,7 @@ class Servico extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
-                    imageText,
+                    widget.imageText,
                     style: TextStyle(
                       fontFamily: 'Playlist',
                       fontSize: 60,
@@ -53,21 +67,68 @@ class Servico extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: 5),
+          Container(
+            height: 50,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _especialidades.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 2.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: _selectedIndex == index ? Colors.blue : Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.zero,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _selectedIndex == index ? Colors.blue : Colors.transparent,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: Text(
+                        _especialidades[index],
+                        style: TextStyle(
+                          color: _selectedIndex == index ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 16.0),
           Expanded(
-            child: Container(
-              padding: EdgeInsets.all(16),
-              child: ListView(
-                children: [
-                  InkWell(
+            child: ListView.builder(
+              itemCount: _usuarios.length,
+              itemBuilder: (context, index) {
+                if (_usuarios[index][1] == _especialidades[_selectedIndex]) {
+                  return InkWell(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => PerfilPage(
-                            nome: 'João da Silva',
-                            servico: 'Pedreiro',
-                            portfolio: ['Item 1', 'Item 2'],
-                            avaliacoes: ['Recomendação 1', 'Recomendação 2'],
+                            nome: _usuarios[index][0],
+                            servico: _usuarios[index][1],
+                            portfolio: [_usuarios[index][2], _usuarios[index][3]],
+                            avaliacoes: [_usuarios[index][4], _usuarios[index][5]],
                           ),
                         ),
                       );
@@ -86,14 +147,14 @@ class Servico extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'João da Silva',
+                                  _usuarios[index][0],
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
                                 Text(
-                                  'Pedreiro',
+                                  _usuarios[index][1],
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontSize: 14,
@@ -105,57 +166,11 @@ class Servico extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PerfilPage(
-                            nome: 'Maria Santos',
-                            servico: 'Eletricista',
-                            portfolio: ['Item 3', 'Item 4'],
-                            avaliacoes: ['Recomendação 3', 'Recomendação 4'],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage('assets/profile_image.png'),
-                            radius: 30,
-                          ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Maria Santos',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text(
-                                  'Eletricista',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 14,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                  );
+                } else {
+                  return Container(); // Retorna um container vazio se não for a especialidade selecionada
+                }
+              },
             ),
           ),
         ],

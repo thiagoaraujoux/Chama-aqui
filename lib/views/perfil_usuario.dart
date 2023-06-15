@@ -117,6 +117,7 @@ class UserProfilePage extends StatelessWidget {
           ),
         ),
         SizedBox(height: 4.0),
+
         Text(
           label,
           style: TextStyle(fontSize: 16.0),

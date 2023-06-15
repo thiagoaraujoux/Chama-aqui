@@ -267,6 +267,7 @@ class _CadastroPageState extends State<CadastroPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      SizedBox(height: 4),
                       TextFormField(
                         controller: _cepController,
                         decoration: InputDecoration(
