@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../models/servico.dart';
 
-
 class Servico extends StatefulWidget {
   final String imagePath;
   final String imageText;
@@ -82,49 +81,55 @@ class _ServicoState extends State<Servico> {
             ],
           ),
           SizedBox(height: 5),
-          Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: categorias.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: _selectedIndex == index ? Colors.blue : Colors.transparent,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = index;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _selectedIndex == index ? Colors.blue : Colors.transparent,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Text(
-                        categorias[index],
-                        style: TextStyle(
-                          color: _selectedIndex == index ? Colors.white : Colors.black,
-                          fontWeight: FontWeight.bold,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Container(
+              height: 50,
+              margin: EdgeInsets.symmetric(horizontal: 2.0),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Center(
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: categorias.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: _selectedIndex == index ? Colors.blue : Colors.transparent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: EdgeInsets.zero,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _selectedIndex = index;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: _selectedIndex == index ? Colors.blue : Colors.transparent,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: Text(
+                            categorias[index],
+                            style: TextStyle(
+                              color: _selectedIndex == index ? Colors.white : Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              },
+                    );
+                  },
+                ),
+              ),
             ),
           ),
           SizedBox(height: 16.0),
@@ -148,11 +153,11 @@ class _ServicoState extends State<Servico> {
                       );
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                       child: Row(
                         children: [
                           CircleAvatar(
-                            backgroundImage: AssetImage('assets/profile_image.png'),
+                            backgroundImage: AssetImage('assets/images/avatar.png'),
                             radius: 30,
                           ),
                           SizedBox(width: 16),
