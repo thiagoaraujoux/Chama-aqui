@@ -18,7 +18,7 @@ List<ServicoModel> servicos = [
     categorias: ['Pintor', 'Pedreiro', 'Engenheiro'],
   ),
   ServicoModel(
-    servico: 'Informática',
-    categorias: ['Reparo', 'Instalação', 'Upgrade'],
+    servico: 'Limpeza',
+    categorias: ['Diarista', 'Pós festa', 'Mensal'],
   ),
 ];

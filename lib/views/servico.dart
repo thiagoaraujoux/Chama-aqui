@@ -1,11 +1,15 @@
 import 'package:chamaaqui/views/perfil.dart';
 import 'package:flutter/material.dart';
 
+import '../models/servico.dart';
+
+
 class Servico extends StatefulWidget {
   final String imagePath;
   final String imageText;
 
-  const Servico({Key? key, required this.imagePath, required this.imageText}) : super(key: key);
+  const Servico({Key? key, required this.imagePath, required this.imageText})
+      : super(key: key);
 
   @override
   _ServicoState createState() => _ServicoState();
@@ -13,7 +17,15 @@ class Servico extends StatefulWidget {
 
 class _ServicoState extends State<Servico> {
   int _selectedIndex = 0;
-  List<String> _especialidades = ['Pedreiro', 'Eletricista', 'Encanador'];
+
+  List<String> getCategoriasServico(String servico) {
+    for (var i = 0; i < servicos.length; i++) {
+      if (servicos[i].servico == servico) {
+        return servicos[i].categorias;
+      }
+    }
+    return [];
+  }
 
   List<List<String>> _usuarios = [
     ['João da Silva', 'Pedreiro', 'Item 1', 'Item 2', 'Recomendação 1', 'Recomendação 2'],
@@ -23,6 +35,8 @@ class _ServicoState extends State<Servico> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> categorias = getCategoriasServico(widget.imageText);
+
     return Scaffold(
       body: Column(
         children: [
@@ -76,7 +90,7 @@ class _ServicoState extends State<Servico> {
             ),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: _especialidades.length,
+              itemCount: categorias.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.0),
@@ -101,7 +115,7 @@ class _ServicoState extends State<Servico> {
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: Text(
-                        _especialidades[index],
+                        categorias[index],
                         style: TextStyle(
                           color: _selectedIndex == index ? Colors.white : Colors.black,
                           fontWeight: FontWeight.bold,
@@ -118,7 +132,7 @@ class _ServicoState extends State<Servico> {
             child: ListView.builder(
               itemCount: _usuarios.length,
               itemBuilder: (context, index) {
-                if (_usuarios[index][1] == _especialidades[_selectedIndex]) {
+                if (_usuarios[index][1] == categorias[_selectedIndex]) {
                   return InkWell(
                     onTap: () {
                       Navigator.push(
