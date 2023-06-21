@@ -24,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isDarkMode = false;
   bool isMenuOpen = false;
   String? loggedInUser;
+  bool isDarkModeEnabled = false;
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void toggleDarkMode() {
     setState(() {
-      isDarkMode = !isDarkMode;
+      isDarkModeEnabled = !isDarkModeEnabled;
     });
   }
 
@@ -53,10 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 250),
-        pageBuilder: (_, __, ___) => Servico(
-          imagePath: imagePath,
-          imageText: imageText,
-        ),
+        pageBuilder: (_, __, ___) =>
+            Servico(
+              imagePath: imagePath,
+              imageText: imageText,
+            ),
         transitionsBuilder: (_, animation, __, child) {
           return ScaleTransition(
             scale: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
@@ -87,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = isDarkMode ? ThemeData.dark() : ThemeData.light();
+    final theme = isDarkModeEnabled ? ThemeData.dark() : ThemeData.light();
 
     return MaterialApp(
       title: widget.title,
@@ -107,13 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           actions: [
-            IconButton(
-              icon: Icon(Icons.account_circle),
-              onPressed: navigateToLogin,
-            ),
-            IconButton(
-              icon: Icon(Icons.lightbulb),
-              onPressed: toggleDarkMode,
+            Padding(
+              padding: EdgeInsets.only(right: 22),
+              child: IconButton(
+                icon: Icon(Icons.login),
+                onPressed: navigateToLogin,
+              ),
             ),
           ],
         ),
@@ -162,16 +163,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   navigateToLogin();
                 },
               ),
+              ListTile(
+                leading: Icon(
+                  isDarkModeEnabled ? Icons.nightlight_round : Icons.wb_sunny,
+                  color: isDarkModeEnabled ? Colors.yellow : Colors.orange,
+                ),
+                title: Text('Dark Mode'),
+                trailing: Switch(
+                  value: isDarkModeEnabled,
+                  onChanged: (value) {
+                    setState(() {
+                      isDarkModeEnabled = value;
+                    });
+                  },
+                ),
+              ),
             ],
           ),
         ),
-        body: SingleChildScrollView( // Wrap with SingleChildScrollView
+        body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 20),
               ListView.builder(
-                shrinkWrap: true, // Set shrinkWrap to true
+                shrinkWrap: true,
                 itemCount: images.length,
                 itemBuilder: (context, index) {
                   final imagePath = images[index]['path'];

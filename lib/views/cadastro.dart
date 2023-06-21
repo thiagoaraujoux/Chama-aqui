@@ -159,209 +159,218 @@ class _CadastroPageState extends State<CadastroPage> {
           },
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Text(
-              'Cadastro de Usuário',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-            child: Text(
-              'Insira suas informações',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          Stepper(
-            currentStep: _currentPageIndex,
-            onStepContinue: () {
-              if (_formKeys[_currentPageIndex].currentState!.validate()) {
-                setState(() {
-                  if (_currentPageIndex < _formKeys.length - 1) {
-                    _currentPageIndex += 1;
-                  } else {
-                    cadastrarUsuario();
-                  }
-                });
-              }
-            },
-            onStepCancel: () {
-              setState(() {
-                if (_currentPageIndex > 0) {
-                  _currentPageIndex -= 1;
-                }
-              });
-            },
-            steps: [
-              Step(
-                title: Text('Informações pessoais'),
-                content: Form(
-                  key: _formKeys[0],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 4),
-                      TextFormField(
-                        controller: _nomeController,
-                        decoration: InputDecoration(
-                          labelText: 'Nome',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o nome.';
-                          }
-                          return null;
-                        },
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16.0),
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      'Cadastro de Usuário',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          labelText: 'E-mail',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o e-mail.';
-                          } else if (!value.contains('@')) {
-                            return 'E-mail inválido.';
-                          }
-                          return null;
-                        },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                    child: Text(
+                      'Insira suas informações',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
                       ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _senhaController,
-                        decoration: InputDecoration(
-                          labelText: 'Senha',
-                          border: OutlineInputBorder(),
-                        ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira a senha.';
+                    ),
+                  ),
+                  Stepper(
+                    currentStep: _currentPageIndex,
+                    onStepContinue: () {
+                      if (_formKeys[_currentPageIndex].currentState!.validate()) {
+                        setState(() {
+                          if (_currentPageIndex < _formKeys.length - 1) {
+                            _currentPageIndex += 1;
+                          } else {
+                            cadastrarUsuario();
                           }
-                          return null;
-                        },
+                        });
+                      }
+                    },
+                    onStepCancel: () {
+                      setState(() {
+                        if (_currentPageIndex > 0) {
+                          _currentPageIndex -= 1;
+                        }
+                      });
+                    },
+                    steps: [
+                      Step(
+                        title: Text('Informações pessoais'),
+                        content: Form(
+                          key: _formKeys[0],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SizedBox(height: 4),
+                              TextFormField(
+                                controller: _nomeController,
+                                decoration: InputDecoration(
+                                  labelText: 'Nome',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o nome.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  labelText: 'E-mail',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o e-mail.';
+                                  } else if (!value.contains('@')) {
+                                    return 'E-mail inválido.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _senhaController,
+                                decoration: InputDecoration(
+                                  labelText: 'Senha',
+                                  border: OutlineInputBorder(),
+                                ),
+                                obscureText: true,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira a senha.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        isActive: _currentPageIndex == 0,
+                      ),
+                      Step(
+                        title: Text('Endereço'),
+                        content: Form(
+                          key: _formKeys[1],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              SizedBox(height: 4),
+                              TextFormField(
+                                controller: _cepController,
+                                decoration: InputDecoration(
+                                  labelText: 'CEP',
+                                  border: OutlineInputBorder(),
+                                ),
+                                onChanged: (value) {
+                                  buscarEnderecoPorCEP(value);
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o CEP.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _enderecoController,
+                                decoration: InputDecoration(
+                                  labelText: 'Endereço',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o endereço.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _numeroController,
+                                decoration: InputDecoration(
+                                  labelText: 'Número',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o número.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _bairroController,
+                                decoration: InputDecoration(
+                                  labelText: 'Bairro',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o bairro.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _cidadeController,
+                                decoration: InputDecoration(
+                                  labelText: 'Cidade',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira a cidade.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 16.0),
+                              TextFormField(
+                                controller: _estadoController,
+                                decoration: InputDecoration(
+                                  labelText: 'Estado',
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Por favor, insira o estado.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        isActive: _currentPageIndex == 1,
                       ),
                     ],
                   ),
-                ),
-                isActive: _currentPageIndex == 0,
-              ),
-              Step(
-                title: Text('Endereço'),
-                content: Form(
-                  key: _formKeys[1],
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 4),
-                      TextFormField(
-                        controller: _cepController,
-                        decoration: InputDecoration(
-                          labelText: 'CEP',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
-                          buscarEnderecoPorCEP(value);
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o CEP.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _enderecoController,
-                        decoration: InputDecoration(
-                          labelText: 'Endereço',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o endereço.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _numeroController,
-                        decoration: InputDecoration(
-                          labelText: 'Número',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o número.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _bairroController,
-                        decoration: InputDecoration(
-                          labelText: 'Bairro',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o bairro.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _cidadeController,
-                        decoration: InputDecoration(
-                          labelText: 'Cidade',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira a cidade.';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
-                        controller: _estadoController,
-                        decoration: InputDecoration(
-                          labelText: 'Estado',
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Por favor, insira o estado.';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                isActive: _currentPageIndex == 1,
-              ),
-            ],
+                ],
+              );
+            },
           ),
-        ],
+        ),
       ),
     );
   }

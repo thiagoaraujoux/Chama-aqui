@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
+
+  @override
+  _UserProfilePageState createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  bool isEditing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +67,15 @@ class UserProfilePage extends StatelessWidget {
                       _buildProfileStat('Posts', '1.5K'),
                     ],
                   ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isEditing = !isEditing;
+                      });
+                    },
+                    child: Text(isEditing ? 'Save' : 'Edit'),
+                  ),
                 ],
               ),
             ),
@@ -93,7 +109,17 @@ class UserProfilePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-                  Text(
+                  isEditing
+                      ? TextFormField(
+                    initialValue:
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus, augue et maximus semper, nibh nulla luctus ligula, in convallis neque erat a metus. Suspendisse id metus ac arcu feugiat interdum vitae ac enim.',
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'About',
+                    ),
+                    maxLines: null,
+                  )
+                      : Text(
                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus, augue et maximus semper, nibh nulla luctus ligula, in convallis neque erat a metus. Suspendisse id metus ac arcu feugiat interdum vitae ac enim.',
                     style: TextStyle(fontSize: 16.0),
                   ),
@@ -117,7 +143,6 @@ class UserProfilePage extends StatelessWidget {
           ),
         ),
         SizedBox(height: 4.0),
-
         Text(
           label,
           style: TextStyle(fontSize: 16.0),
