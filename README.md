@@ -4,15 +4,26 @@ Proposta de app para serviços informais, projeto realizado como parte da materi
 
 # Telas do App
 
-![image](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/3de4390e-4924-44ec-b8ca-c551d5dabb9e)
+Tela inicial
 
-![Captura de tela 2023-06-22 223832](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/21e399fb-fad9-4a39-9ab8-a98a69ec6683)
+![image (1)](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/d7a1e682-b4c7-4fd3-ad49-55c5e1f262e5)
 
-![Captura de tela 2023-06-22 222305](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/73911c8f-a823-46f9-97af-d5c69d6ef64f)
+Categoria de serviços
 
-![Captura de tela 2023-06-22 221555](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/22ebeafc-4359-4fb3-bfdd-d19ddc0d5def)
+![Captura de tela 2023-06-22 222305](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/f57ac788-817a-4980-9de2-fb705fbbe3fc)
 
-![Captura de tela 2023-06-22 223041](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/3cccbf29-4be5-4e7f-9af0-4ef003ad7339)
+Perfil de usuario
+
+![Captura de tela 2023-06-22 222120](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/e055fa00-b5e9-4a80-bca5-dbcf37c32e9c)
+
+Tela de Login
+
+![Captura de tela 2023-06-22 223832](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/65c85952-549e-4586-b0b6-911ff1a875fb)
+
+Modelo responsivo
+
+![Captura de tela 2023-06-22 223743](https://github.com/thiagoaraujo234/Chama-aqui/assets/51480683/03f44daf-2aea-4e55-b15e-f06f3ff4d8b7)
+
 
 
 ## Getting Started
